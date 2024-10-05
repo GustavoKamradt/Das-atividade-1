@@ -1,17 +1,12 @@
 package br.univille.eventos.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.azure.messaging.servicebus.ServiceBusMessage;
 import com.azure.messaging.servicebus.ServiceBusProcessorClient;
 import com.azure.messaging.servicebus.ServiceBusSenderClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -24,7 +19,7 @@ public class HomeControllerAPI {
     @Autowired()
     @Qualifier("queuesenderclient")
     private ServiceBusSenderClient queueSenderClient;
-    
+
     @Autowired
     @Qualifier("serviceBusTopicProcessorClient")
     private ServiceBusProcessorClient processorTopicClient;
@@ -32,28 +27,29 @@ public class HomeControllerAPI {
     @Qualifier("serviceBusQueueProcessorClient")
     private ServiceBusProcessorClient processorQueueClient;
 
-    
-    
+
     @PostMapping("/topic/send")
-    public ResponseEntity topicSend(@RequestBody String msg){
+    public ResponseEntity topicSend(@RequestBody String msg) {
         System.out.println(msg);
         topicSenderClient.sendMessage(new ServiceBusMessage(msg));
         return ResponseEntity.ok().build();
     }
+
     @PostMapping("/queue/send")
-    public ResponseEntity queueSend(@RequestBody String msg){
+    public ResponseEntity queueSend(@RequestBody String msg) {
         System.out.println(msg);
         queueSenderClient.sendMessage(new ServiceBusMessage(msg));
         return ResponseEntity.ok().build();
     }
-    
+
     @GetMapping("/topic/receive")
-    public ResponseEntity topicReceive(){
+    public ResponseEntity topicReceive() {
         processorTopicClient.start();
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/queue/receive")
-    public ResponseEntity queueReceive(){
+    public ResponseEntity queueReceive() {
         processorQueueClient.start();
         return ResponseEntity.ok().build();
     }
