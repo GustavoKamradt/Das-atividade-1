@@ -1,0 +1,23 @@
+### TOPIC SEND
+POST http://localhost:8080/api/topic/enviar
+Content-Type: application/json
+
+"{{$datetime iso8601}} gustavo "
+
+### TOPIC SEND
+POST http://localhost:8080/api/queue/enviar
+Content-Type: application/json
+
+"{{$datetime iso8601}} gustavo"
+
+### RECEIVE TOPIC
+GET http://localhost:8080/api/topic/receive
+Content-Type: application/json
+
+### RECEIVE QUEUE
+GET http://localhost:8080/api/queue/receive
+Content-Type: application/json
+
+
+
+
